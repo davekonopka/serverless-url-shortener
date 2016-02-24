@@ -1,0 +1,79 @@
+---
+swagger: "2.0"
+info:
+  version: "2016-02-20T13:21:17Z"
+  title: "redir"
+basePath: "/"
+schemes:
+- "https"
+paths:
+  /:
+    post:
+      parameters: []
+      responses:
+        200:
+          description: "200 response"
+          headers: {}
+      security:
+      - api_key: []
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseTemplates:
+              application/json: "__passthrough__"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:{{YOUR AWS ACCOUNT ID}}:function:redir_post_token/invocations"
+        httpMethod: "POST"
+        type: "aws"
+  /{token}:
+    get:
+      parameters:
+      - name: "token"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        301:
+          description: "301 response"
+          headers:
+            Cache-Control:
+              type: "string"
+            Location:
+              type: "string"
+            Content-Type:
+              type: "string"
+        404:
+          description: "404 response"
+          headers:
+            Content-Type:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "301"
+            responseParameters:
+              method.response.header.Cache-Control: "'private, max-age=90'"
+              method.response.header.Content-Type: "'text/html'"
+              method.response.header.Location: "integration.response.body.destination_url"
+            responseTemplates:
+              text/html: "$input.path('$.content')"
+          .*Not Found.*:
+            statusCode: "404"
+            responseParameters:
+              method.response.header.Content-Type: "'text/html'"
+            responseTemplates:
+              text/html: "$input.path('$.errorMessage')"
+        requestTemplates:
+          application/json: "#set($inputRoot = $input.path('$'))\n{\n  \"token\" :\
+            \ \"$input.params('token')\"\n}"
+          text/html: "#set($inputRoot = $input.path('$'))\n{\n  \"token\" : \"$input.params('token')\"\
+            \n}"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:{{YOUR AWS ACCOUNT ID}}:function:redir_lookup_token/invocations"
+        httpMethod: "POST"
+        type: "aws"
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "x-api-key"
+    in: "header"
+definitions: {}

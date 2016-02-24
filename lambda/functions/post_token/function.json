@@ -1,0 +1,8 @@
+{
+  "name": "redir_post_token",
+  "description": "post a token and url",
+  "runtime": "nodejs",
+  "memory": 128,
+  "timeout": 5,
+  "role": "arn:aws:iam::{{YOUR AWS ACCOUNT ID}}:role/lambda_redir"
+}

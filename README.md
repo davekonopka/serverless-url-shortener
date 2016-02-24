@@ -24,6 +24,8 @@ To use this [install and configure Terraform](https://www.terraform.io/intro/get
 
 All Lambda functions are organized under `lambda` using the [Apex framework](http://apex.run/).
 
+**NOTE**: References to Amazon account id have been replaced with `{{YOUR AWS ACCOUNT ID}}`. You will need to change these to your numeric AWS account id.
+
 Once you [install Apex](http://apex.run/#installation), you can deploy via the CLI:
 
 ```

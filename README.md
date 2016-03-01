@@ -2,6 +2,8 @@
 
 This repo contains components for a proof of concept URL shortner service running on Amazon's API Gateway and Lambda services.
 
+Related blog post: [Build a serverless URL shortener with AWS Lambda and API Gateway services](http://www.davekonopka.com/2016/serverless-aws-lambda-api-gateway.html)
+
 ## Components
 
 * API Gateway front-end
